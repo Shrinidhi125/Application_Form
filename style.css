@@ -1,120 +1,115 @@
-/* Wrapper */
-.form-wrapper {
-  display: flex;
-  justify-content: center;
-  padding: 20px;
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:"Poppins",sans-serif;
+  background:#eef1ff;
 }
 
-/* Container card */
-.form-card {
-  width: 75%;
-  max-width: 850px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(14px);
-  border-radius: 20px;
-  padding: 25px;
-  box-shadow: 0 12px 35px rgba(0,0,0,0.12);
-  animation: slideUp .7s ease forwards;
+/* Header */
+.header{
+  background:linear-gradient(135deg,#7b2ff7,#f107a3);
+  padding:22px 10px;
+  text-align:center;
+  color:white;
+}
+.title{font-size:2rem;font-weight:700;margin-bottom:6px;}
+.subtitle{opacity:.9;font-size:.95rem;}
+
+/* Layout */
+.wrapper{
+  display:flex;
+  justify-content:center;
+  padding:20px;
+  min-height:60vh;
+}
+.card{
+  width:70%;
+  max-width:900px;
+  background:white;
+  border-radius:22px;
+  padding:22px;
+  box-shadow:0 15px 35px rgba(0,0,0,.15);
+  backdrop-filter:blur(12px);
 }
 
-/* Title */
-.form-title {
-  font-weight: 700;
-  text-align: center;
-  font-size: 1.7rem;
-  margin-bottom: 16px;
-  color: #1e1b4b;
+/* Form grid */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px 18px;
+}
+.full{grid-column:span 2;}
+.box{display:flex;flex-direction:column;}
+.box label{font-weight:600;margin-bottom:4px;}
+.box input,.box textarea{
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid #ccc;
+  font-size:.95rem;
+  transition:.25s;
+}
+textarea{resize:none;height:70px;}
+.box input:focus,.box textarea:focus{
+  border-color:#7b2ff7;
+  box-shadow:0 0 11px rgba(123,47,247,.45);
 }
 
-/* Grid Layout */
-.dynamic-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px 18px;
+.btn{
+  grid-column:span 2;
+  padding:12px;
+  background:linear-gradient(135deg,#6366f1,#ec4899);
+  color:white;
+  border:none;
+  border-radius:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.3s;
 }
+.btn:hover{transform:translateY(-4px);}
 
-.full { grid-column: span 2; }
-
-/* Input styling */
-.input-box {
-  display: flex;
-  flex-direction: column;
+/* Submitted Output Page */
+.output-wrapper{
+  display:flex;
+  justify-content:center;
+  padding:30px;
 }
-
-.input-box label {
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-bottom: 4px;
+.output-card{
+  display:flex;
+  gap:18px;
+  align-items:center;
+  width:75%;
+  max-width:900px;
+  background:white;
+  padding:26px;
+  border-radius:22px;
+  box-shadow:0 10px 30px rgba(0,0,0,.15);
 }
-
-.input-box input,
-.input-box textarea {
-  padding: 10px 12px;
-  border-radius: 12px;
-  border: 1px solid #cbd5e1;
-  font-size: 0.95rem;
-  transition: 0.25s ease;
-  background: #ffffff;
+.output-card img{
+  width:130px;
+  height:130px;
+  border-radius:12px;
+  object-fit:cover;
 }
-
-/* Focus glow */
-.input-box input:focus,
-.input-box textarea:focus {
-  outline: none;
-  border-color: #6366f1;
-  box-shadow: 0 0 10px rgba(99,102,241,0.45);
+.output-card h2{
+  margin-bottom:6px;
+  font-size:1.6rem;
+  font-weight:700;
 }
-
-/* Submit button */
-.dynamic-btn {
-  padding: 12px 18px;
-  margin-top: 6px;
-  grid-column: span 2;
-  background: linear-gradient(135deg, #6366f1, #ec4899);
-  color: white;
-  border-radius: 12px;
-  border: none;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 10px 22px rgba(99,102,241,0.35);
-  transition: 0.28s ease;
+.output-card p{font-size:.95rem;margin:4px 0;}
+.submit-back{
+  margin-top:14px;
+  display:inline-block;
+  padding:10px 18px;
+  border-radius:12px;
+  background:#2563eb;
+  color:white;
+  text-decoration:none;
+  transition:.25s;
 }
+.submit-back:hover{background:#1d4ed8;}
 
-.dynamic-btn:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 28px rgba(99,102,241,0.45);
-}
-
-/* Scroll reveal */
-.appear {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: 0.6s ease;
-}
-
-.appear.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .dynamic-grid { grid-template-columns: 1fr; }
-  .full { grid-column: span 1; }
-  .form-card { width: 94%; }
-}
-
-.footer {
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.form-heading {
-  text-align: center;
-}
-
-header {
-  text-align: center;
+.footer{
+  text-align:center;
+  padding:12px;
+  opacity:.6;
+  font-size:.9rem;
 }

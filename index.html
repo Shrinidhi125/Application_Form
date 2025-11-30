@@ -10,70 +10,63 @@
     />
     <link rel="stylesheet" href="style.css" />
   </head>
+
   <body>
-    <!-- Reuse same purple header style -->
     <header class="header">
-      <div class="header-inner">
-        <h1 class="name">Online Application / Registration Form</h1>
-        <p class="tagline">Fill your details and submit the application</p>
-      </div>
+      <h1 class="title">Online Application / Registration Form</h1>
+      <p class="subtitle">Fill your details and submit the application</p>
     </header>
 
-    <main class="form-wrapper">
-      <section class="form-card appear">
-        <h2 class="form-title">Applicant Details</h2>
-
+    <main class="wrapper">
+      <section class="card appear">
         <form
           action="submit.php"
           method="POST"
           enctype="multipart/form-data"
-          class="form-grid dynamic-grid"
+          class="grid"
         >
-          <div class="input-box">
+          <div class="box">
             <label>Full Name *</label>
             <input type="text" name="fullname" required />
           </div>
 
-          <div class="input-box">
+          <div class="box">
             <label>Email *</label>
             <input type="email" name="email" required />
           </div>
 
-          <div class="input-box">
+          <div class="box">
             <label>Phone *</label>
             <input type="text" name="phone" maxlength="10" required />
           </div>
 
-          <div class="input-box full">
+          <div class="box full">
             <label>Address *</label>
             <textarea name="address" required></textarea>
           </div>
 
-          <div class="input-box">
+          <div class="box">
             <label>Course Applied *</label>
             <input type="text" name="course" required />
           </div>
 
-          <div class="input-box">
+          <div class="box">
             <label>Upload Photo *</label>
-            <input type="file" name="photo" accept="image/*" />
+            <input type="file" name="photo" accept="image/*" required />
           </div>
 
-          <div class="input-box full">
+          <div class="box full">
             <label>Bio / Objective *</label>
             <textarea name="bio" required></textarea>
           </div>
 
-          <button type="submit" class="submit-btn dynamic-btn">
-            Submit Application
-          </button>
+          <button type="submit" class="btn">Submit Application</button>
         </form>
       </section>
     </main>
 
-    <footer class="footer">© 2025 · Application Form</footer>
+    <footer class="footer">© 2025 · Application System</footer>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
