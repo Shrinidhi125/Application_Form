@@ -1,67 +1,82 @@
 <?php
-$name=$_POST['name'];
-$email=$_POST['email'];
-$phone=$_POST['phone'];
-$dob=$_POST['dob'];
-$gender=$_POST['gender'];
-$education=$_POST['education'];
-$skills=$_POST['skills'];
-$address=$_POST['address'];
+// Handle submitted data safely
+function safe($key) {
+    return isset($_POST[$key]) ? htmlspecialchars($_POST[$key]) : '';
+}
+
+$fullname = safe('fullname');
+$email    = safe('email');
+$phone    = safe('phone');
+$address  = safe('address');
+$course   = safe('course');
+$bio      = safe('bio');
+
+$photoPath = "";
+
+// Handle photo upload (if provided)
+if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+    $ext = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
+    $newName = 'photo_' . time() . '.' . $ext;
+    $targetDir = 'uploads/';
+    if (!is_dir($targetDir)) {
+        mkdir($targetDir, 0777, true);
+    }
+    $targetFile = $targetDir . $newName;
+
+    if (move_uploaded_file($_FILES['photo']['tmp_name'], $targetFile)) {
+        $photoPath = $targetFile;
+    }
+}
 ?>
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Application Details</title>
-<style>
-body{
-  background:black;
-  display:flex; justify-content:center; align-items:center;
-  height:100vh; font-family:poppins;
-}
-.card{
-  background:rgba(255,255,255,0.1);
-  padding:35px; width:550px; border-radius:20px;
-  box-shadow:0 0 25px rgba(255,215,0,0.6);
-  backdrop-filter:blur(10px); color:white; text-align:center;
-}
-h2{ color:gold; margin-bottom:18px; }
-p{ font-size:18px; margin:8px 0; }
-.status{
-  font-size:20px; font-weight:600; color:lightgreen; margin-top:12px;
-}
-.print-btn{
-  margin-top:20px; padding:12px 25px; font-size:17px; border:none;
-  background:linear-gradient(45deg,#d4af37,#8b6b18);
-  color:white; border-radius:10px; cursor:pointer;
-}
-.print-btn:hover{ transform:scale(1.05); }
-</style>
-
-<script>
-function printPage(){
-  window.print();
-}
-</script>
-
+  <meta charset="UTF-8">
+  <title>Application Received</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class='card'>
-<h2>🎉 Registration Successful 🎉</h2>
+  <header class="header">
+    <div class="header-inner">
+      <h1 class="name">Application Received</h1>
+    </div>
+  </header>
 
-<p><b>Name:</b> <?php echo $name; ?></p>
-<p><b>Email:</b> <?php echo $email; ?></p>
-<p><b>Phone:</b> <?php echo $phone; ?></p>
-<p><b>Date of Birth:</b> <?php echo $dob; ?></p>
-<p><b>Gender:</b> <?php echo $gender; ?></p>
-<p><b>Education:</b> <?php echo $education; ?></p>
-<p><b>Skills:</b> <?php echo $skills; ?></p>
-<p><b>Address:</b> <?php echo $address; ?></p>
+  <main class="result-card">
+    <section class="result-inner reveal">
+      <div>
+        <?php if ($photoPath): ?>
+          <img src="<?php echo $photoPath; ?>" alt="Applicant Photo" class="result-photo">
+        <?php else: ?>
+          <!-- default placeholder if no photo -->
+          <div style="width:130px;height:160px;border-radius:10px;border:2px solid rgba(148,163,184,0.7);display:flex;align-items:center;justify-content:center;font-size:0.8rem;color:#6b7280;">
+            No Photo
+          </div>
+        <?php endif; ?>
+      </div>
 
-<p class="status">Application Status: ✔ Submitted Successfully</p>
+      <div>
+        <h2 style="margin-bottom:10px;"><?php echo $fullname; ?></h2>
+        <p><strong>Email:</strong> <?php echo $email; ?></p>
+        <p><strong>Phone:</strong> <?php echo $phone; ?></p>
+        <p><strong>Address:</strong> <?php echo nl2br($address); ?></p>
+        <p><strong>Course:</strong> <?php echo $course; ?></p>
+        <p><strong>Bio:</strong><br><?php echo nl2br($bio); ?></p>
 
-<button class="print-btn" onclick="printPage()">Print / Download PDF</button>
+        <form action="form.html" method="get">
+          <button class="small-btn" type="submit">Submit Another</button>
+        </form>
+      </div>
+    </section>
+  </main>
 
-</div>
+  <footer class="footer">
+    © 2025 · Application System
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
