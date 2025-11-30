@@ -1,82 +1,126 @@
 <?php
-// Handle submitted data safely
-function safe($key) {
-    return isset($_POST[$key]) ? htmlspecialchars($_POST[$key]) : '';
-}
+// Check form request method
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
+    // Collecting form data
+    $fullname = $_POST['fullname'];
+    $email    = $_POST['email'];
+    $phone    = $_POST['phone'];
+    $address  = $_POST['address'];
+    $course   = $_POST['course'];
+    $bio      = $_POST['bio'];
 
-$fullname = safe('fullname');
-$email    = safe('email');
-$phone    = safe('phone');
-$address  = safe('address');
-$course   = safe('course');
-$bio      = safe('bio');
+    // File upload handling
+    $filename = $_FILES['photo']['name'];
+    $tempname = $_FILES['photo']['tmp_name'];
+    $folder   = "uploads/" . $filename;
 
-$photoPath = "";
-
-// Handle photo upload (if provided)
-if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-    $ext = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
-    $newName = 'photo_' . time() . '.' . $ext;
-    $targetDir = 'uploads/';
-    if (!is_dir($targetDir)) {
-        mkdir($targetDir, 0777, true);
+    // Ensure uploads directory exists
+    if (!is_dir("uploads")) {
+        mkdir("uploads", 0777, true);
     }
-    $targetFile = $targetDir . $newName;
 
-    if (move_uploaded_file($_FILES['photo']['tmp_name'], $targetFile)) {
-        $photoPath = $targetFile;
+    // Move uploaded image
+    if (!empty($filename)) {
+        move_uploaded_file($tempname, $folder);
+    } else {
+        $folder = "uploads/default.png"; // fallback default photo
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Application Received</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Application Submitted</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+.output-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.output-card {
+  width: 75%;
+  max-width: 700px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 26px;
+  text-align: center;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+
+.output-card img {
+  width: 130px;
+  height: 130px;
+  border-radius: 14px;
+  object-fit: cover;
+  margin-bottom: 12px;
+}
+
+.output-card h2 {
+  font-size: 1.6rem;
+  margin-bottom: 8px;
+  color: #1e1b4b;
+}
+
+.output-card p {
+  margin: 6px 0;
+  font-size: 1rem;
+  color: #374151;
+}
+
+.return-btn {
+  margin-top: 18px;
+  display: inline-block;
+  padding: 12px 22px;
+  background: linear-gradient(135deg, #6366f1, #ec4899);
+  color: white;
+  font-weight: 600;
+  border-radius: 12px;
+  text-decoration: none;
+  box-shadow: 0 10px 22px rgba(99,102,241,0.35);
+  transition: 0.25s ease;
+}
+
+.return-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(99,102,241,0.45);
+}
+</style>
+
 </head>
+
 <body>
-  <header class="header">
-    <div class="header-inner">
-      <h1 class="name">Application Received</h1>
-    </div>
-  </header>
 
-  <main class="result-card">
-    <section class="result-inner reveal">
-      <div>
-        <?php if ($photoPath): ?>
-          <img src="<?php echo $photoPath; ?>" alt="Applicant Photo" class="result-photo">
-        <?php else: ?>
-          <!-- default placeholder if no photo -->
-          <div style="width:130px;height:160px;border-radius:10px;border:2px solid rgba(148,163,184,0.7);display:flex;align-items:center;justify-content:center;font-size:0.8rem;color:#6b7280;">
-            No Photo
-          </div>
-        <?php endif; ?>
-      </div>
+<header class="header">
+  <h1 class="name">Application Submitted Successfully 🎉</h1>
+  <p class="tagline">Below is your submitted information</p>
+</header>
 
-      <div>
-        <h2 style="margin-bottom:10px;"><?php echo $fullname; ?></h2>
-        <p><strong>Email:</strong> <?php echo $email; ?></p>
-        <p><strong>Phone:</strong> <?php echo $phone; ?></p>
-        <p><strong>Address:</strong> <?php echo nl2br($address); ?></p>
-        <p><strong>Course:</strong> <?php echo $course; ?></p>
-        <p><strong>Bio:</strong><br><?php echo nl2br($bio); ?></p>
+<div class="output-container appear">
+  <div class="output-card">
 
-        <form action="form.html" method="get">
-          <button class="small-btn" type="submit">Submit Another</button>
-        </form>
-      </div>
-    </section>
-  </main>
+    <img src="<?php echo $folder; ?>" alt="Uploaded Photo">
 
-  <footer class="footer">
-    © 2025 · Application System
-  </footer>
+    <h2><?php echo $fullname; ?></h2>
 
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="script.js"></script>
+    <p><strong>Email:</strong> <?php echo $email; ?></p>
+    <p><strong>Phone:</strong> <?php echo $phone; ?></p>
+    <p><strong>Address:</strong> <?php echo $address; ?></p>
+    <p><strong>Course Applied:</strong> <?php echo $course; ?></p>
+    <p><strong>Bio:</strong> <?php echo nl2br($bio); ?></p>
+
+    <a href="index.html" class="return-btn">Submit Another</a>
+
+  </div>
+</div>
+
+<footer class="footer">© 2025 · Application Form</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
